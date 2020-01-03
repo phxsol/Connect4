@@ -1,2 +1,2 @@
 # Connect4
-This is a repsonse to a development test received during an interview process.
+This is a response to a development test received during an interview process.
