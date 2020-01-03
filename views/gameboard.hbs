@@ -1,0 +1,25 @@
+
+<div id="gameboard">
+
+  <!-- Score Displays for each player -->
+  <div id="red_score" class="player_score">0</div>
+  <div id="yellow_score" class="player_score">0</div>
+
+  <!-- The gameboard graphics, z-index layered to sandwich the tokens between. -->
+  <img class="board_background" src="/images/board_background.png">
+  <img class="board_face" src="/images/board_face.png">
+
+  <!-- These are the tokens the player clicks to select which column to drop into. -->
+  <div id='choice_a' class="choicetoken a red" data_player='red' data_column='a'></div>
+  <div id="choice_b" class="choicetoken b red" data_player='red' data_column='b'></div>
+  <div id="choice_c" class="choicetoken c red" data_player='red' data_column='c'></div>
+  <div id="choice_d" class="choicetoken d red" data_player='red' data_column='d'></div>
+  <div id="choice_e" class="choicetoken e red" data_player='red' data_column='e'></div>
+  <div id="choice_f" class="choicetoken f red" data_player='red' data_column='f'></div>
+
+  <!-- This is the repository for all tokens played, which matches the game engine's records -->
+  <div id="played_tokens"></div>
+  <div id="scoring_display"></div>
+  <div id="dev_corral"></div>
+
+</div>

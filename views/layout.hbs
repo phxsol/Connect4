@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='/javascripts/game_logic.js'></script>
+  </head>
+  <body>
+
+    <div id="game_table">
+
+      <!-- Display the Winner's Circle once a Connect4 has been declared. -->
+      <div id="winner_circle">
+        <h2>Congratulations</h2>
+        <h1 id="winner_label">[color] Player!</h2>
+      </div>
+
+      {{{body}}}
+
+      <!-- These are template elements, invisible until cloned and dropped. -->
+      <img id="model_yellow" class="yellowtoken" src="/images/yellow_token.png">
+      <img id="model_red" class="redtoken" src="/images/red_token.png">
+      <div class="model_score">+7</div>
+
+    </div>
+
+  </body>
+</html>

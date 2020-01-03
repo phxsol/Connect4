@@ -1,0 +1,950 @@
+
+@media only screen and (orientation : portrait){
+  #gameboard{
+    height: 100vw;
+	  width: 100vw;
+	  bottom: calc((100vh - 100vw) / 2);
+    left: -2.5vw;
+  }
+
+  #winner_circle{
+    width: 80vw;
+    height: 80vw;
+    font-size: calc(1rem + 1vw);
+  }
+
+  winner_token{
+    width: 25vw !important;
+  }
+
+  .player_score{
+    font-size: calc(3.0rem + 3vw);
+  }
+}
+
+@media only screen and (orientation : landscape){
+  #gameboard{
+    height: 80vh;
+	  width: 80vh;
+	  bottom: 5vh;
+    left: calc((100vw - 80vh) / 2);
+  }
+
+  #winner_circle{
+    height: 80vh;
+    width: 80vh;
+    font-size: calc(1rem + 1vh);
+  }
+
+  .winner_token{
+    width: 25vh !important;
+  }
+
+  .player_score{
+    font-size: calc(3.0rem + 3vh);
+  }
+}
+
+@keyframes bolster_token {
+  0%      { top: 1%; }
+  14.29%  { top: -10px; }
+  28.57%  { top: -15px; }
+  42.86%  { top: 1%; }
+  57.14%  { top: -10px; }
+  71.43%  { top: 1%; }
+  85.71%  { top: 0px; }
+  100%    { top: 1%; }
+}
+
+@keyframes Connect4 {
+   0% { opacity: 1.00; }
+   2% { opacity: 0.96; }
+   3% { opacity: 0.94; }
+   5% { opacity: 0.90; }
+   7% { opacity: 0.86; }
+  11% { opacity: 0.78; }
+  13% { opacity: 0.74; }
+  17% { opacity: 0.66; }
+  19% { opacity: 0.62; }
+  23% { opacity: 0.54; }
+  29% { opacity: 0.42; }
+  31% { opacity: 0.38; }
+  37% { opacity: 0.26; }
+  41% { opacity: 0.18; }
+  43% { opacity: 0.14; }
+  47% { opacity: 0.06; }
+  53% { opacity: 0.06; }
+  59% { opacity: 0.18; }
+  61% { opacity: 0.22; }
+  67% { opacity: 0.34; }
+  71% { opacity: 0.42; }
+  73% { opacity: 0.46; }
+  79% { opacity: 0.58; }
+  83% { opacity: 0.66; }
+  89% { opacity: 0.78; }
+  97% { opacity: 0.94; }
+ 100% { opacity: 1.00; }
+}
+
+@keyframes fade_away {
+  0%    {opacity: 1; }
+  100%  {opacity: 0; }
+}
+
+@keyframes fade_in {
+  0%  {opacity: 0;   }
+  100%  {opacity: 1; }
+}
+
+@keyframes pop_score {
+    0%      { font-size: calc(1.0rem + 3vw); opacity: 1;}
+    99%     { font-size: calc(3.0rem + 3vw); opacity: 1;}
+    100%    { opacity: 0}
+  }
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+#gameboard{
+  position: absolute;
+  min-height: 300px;
+  min-width: 300px;
+}
+
+#game_table{
+	position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: rgb(0,212,255);
+  background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 73%, rgba(2,0,36,1) 100%);
+}
+
+#model_yellow, #model_red{
+  opacity: 0;
+  z-index: -1;
+}
+
+#red_score{
+  color: red;
+  bottom: 0vh;
+  right: 0vw;
+}
+#red_score.winner_score, #yellow_score.winner_score {
+	position: relative !important;
+}
+
+#winner_circle {
+	background-color: #ffffff77;
+	border: solid darkblue;
+	border-radius: 100vh;
+	left: 25vw;
+	position: absolute;
+	top: 5vw;
+  font-family: 'Righteous', cursive;
+  color: darkblue;
+  text-align: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, 1px 1px 2px black, 0 0 .3em white, 0 0 .2em silver;
+  opacity: 0;
+}
+
+#winner_label{
+  font-variant-caps: all-small-caps;
+}
+#winner_label.red{
+  color: red;
+}
+#winner_label.yellow{
+  color: yellow;
+}
+
+#yellow_score{
+  color: yellow;
+  bottom: 0vh;
+  left: 0vw;
+}
+
+.board_background{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  bottom: 0%;
+  z-index: 1;
+}
+
+.board_face{
+  position: absolute;
+  height: 84%;
+  top: 11.8%;
+  z-index: 3;
+  width: 89.8%;
+  left: 5.6%;
+}
+
+.choicetoken{
+  height: 12%;
+  opacity: 0.5;
+  cursor: pointer;
+  background-size: contain;
+  animation-delay: .1s;
+}
+.choicetoken:hover {
+  opacity: 1;
+  animation-name: bolster_token;
+  animation-duration: 0.42s;
+}
+.choicetoken.red{
+  background-image: url("/images/red_token.png");
+}
+.choicetoken.yellow{
+  background-image: url("/images/yellow_token.png");
+}
+
+.Connect4{
+  animation-name: Connect4;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.disabled{
+  display: none;
+}
+
+.fade_away, .fade_in{
+
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.fade_away{
+  animation-name: fade_away;
+  animation-duration: 0.42s;
+}
+.fade_in{
+  animation-name: fade_in;
+  animation-duration: 1.42s;
+}
+
+.model_score{
+  top: -110vh;
+  left: -110vw;
+}
+
+.player_score{
+  font-family: 'Righteous', cursive;
+  position: absolute;
+  z-index: 4;
+  padding-left: 0.01vw;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, 1px 1px 2px black, 0 0 .3em white, 0 0 .2em silver;
+}
+
+.model_score, .score{
+  font-family: 'Righteous', cursive;
+  position: absolute;
+  z-index: 4;
+  padding-left: 0.01vw;
+  animation-name: pop_score;
+  animation-duration: 0.7s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  color: yellow;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, 1px 1px 2px black, 0 0 .3em white, 0 0 .2em yellow;
+}
+
+.choicetoken, .redtoken, .yellowtoken{
+  width: 12%;
+  z-index: 2;
+  position: absolute;
+  animation-fill-mode: forwards;
+}
+
+.redtoken, .yellowtoken{
+  /*animation-delay: .2s;*/
+}
+
+.winner_token{
+  position: relative;
+}
+
+
+
+/* Column A */
+@keyframes ato7 {
+  0%      {width: 12%; top: 0.6%;   left: 8%;}
+  14.29%  {width: 12%; top: 14%;  left: 10.6%;}
+  28.57%  {width: 11%; top: 28.4%; left: 15.2%;}
+  42.86%  {width: 10%; top: 41.2%; left: 18.4%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 20.4%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 21%;}
+  85.71%  {width: 9%; top: 75%; left: 22.2%;}
+  100%    {width: 9%; top: 85%; left: 22.4%;}
+}
+@keyframes ato6 {
+  0%      {width: 12% top: 0.6%;   left: 8%;}
+  16.67%  {width: 12% top: 14%;  left: 10.6%;}
+  33.33%  {width: 11%; top: 28.4%; left: 15.2%;}
+  50%     {width: 10%; top: 41.2%; left: 18.4%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 20.4%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 21%;}
+  100%    {width: 9%; top: 75%; left: 22.2%;}
+}
+@keyframes ato5 {
+  0%      {width: 12%; top: 0.6%;   left: 8%;}
+  20%  {width: 12%; top: 14%;  left: 10.6%;}
+  40%  {width: 11%; top: 28.4%; left: 15.2%;}
+  60%  {width: 10%; top: 41.2%; left: 18.4%;}
+  80%  {width: 9.4%; top: 52.6%; left: 20.4%;}
+  100%  {width: 9.4%; top: 63.8%; left: 21%;}
+}
+@keyframes ato4 {
+  0%      {width: 12%; top: 0.6%;   left: 8%;}
+  25%  {width: 12%; top: 14%;  left: 10.6%;}
+  50%  {width: 11%; top: 28.4%; left: 15.2%;}
+  75%  {width: 10%; top: 41.2%; left: 18.4%;}
+  100%  {width: 9.4%; top: 52.6%; left: 20.4%;}
+}
+@keyframes ato3 {
+  0%      {width: 12%; top: 0.6%;   left: 8%;}
+  33.33%  {width: 12%; top: 14%;  left: 10.6%;}
+  66.67%  {width: 11%; top: 28.4%; left: 15.2%;}
+  100%    {width: 10%; top: 41.2%; left: 18.4%;}
+}
+@keyframes ato2 {
+  0%    {width: 12%; top: 0.6%;   left: 8%;}
+  50%   {width: 12%; top: 14%;  left: 10.6%;}
+  100%  {width: 11%; top: 28.4%; left: 15.2%;}
+}
+@keyframes ato1 {
+  0%    {width: 12%; top: 0.6%;   left: 8%;}
+  100%  {width: 12%; top: 14%;  left: 10.6%;}
+}
+
+.redtoken.a, .yellowtoken.a, .choicetoken.a{
+  top: 1%;
+  left: 8%;
+}
+
+.a1{
+  top: 14% !important;  left: 10.6% !important; width: 12%;
+}
+.a2{
+  top: 28.4% !important; left: 15.2% !important; width: 11%;
+}
+.a3{
+  top: 41.2% !important; left: 18.4% !important; width: 10%;
+}
+.a4{
+  top: 52.6% !important; left: 20.4% !important; width: 9.4%;
+}
+.a5{
+  top: 63.8% !important; left: 21% !important; width: 9.4%;
+}
+.a6{
+  top: 75% !important; left: 22.2% !important; width: 9%;
+}
+.a7{
+  top: 85% !important; left: 22.4% !important; width: 9%;
+}
+
+.ato7{
+  animation-name: ato7;
+  animation-duration: .42s;
+}
+.ato6{
+  animation-name: ato6;
+  animation-duration: .36s;
+}
+.ato5{
+  animation-name: ato5;
+  animation-duration: .30s;
+}
+.ato4{
+  animation-name: ato4;
+  animation-duration: .24s;
+}
+.ato3{
+  animation-name: ato3;
+  animation-duration: .18s;
+}
+.ato2{
+  animation-name: ato2;
+  animation-duration: .12s;
+}
+.ato1{
+  animation-name: ato1;
+  animation-duration: .06s;
+}
+
+/* Column B */
+@keyframes bto7 {
+  0%      {width: 12%; top: 1%; left: 22%;}
+  14.29%  {width: 12%; top: 14%;  left: 23.6%;}
+  28.57%  {width: 11%; top: 28.4%; left: 26.8%;}
+  42.86%  {width: 10%; top: 41.2%; left: 29.4%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 30.4%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 31%;}
+  85.71%  {width: 9%; top: 75%; left: 31.8%;}
+  100%    {width: 9%; top: 85%; left: 31.8%;}
+}
+@keyframes bto6 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  16.67%  {width: 12%; top: 14%;  left: 23.6%;}
+  33.33%  {width: 11%; top: 28.4%; left: 26.8%;}
+  50%     {width: 10%; top: 41.2%; left: 29.4%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 30.4%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 31%;}
+  100%    {width: 9%; top: 75%; left: 31.8%;}
+}
+@keyframes bto5 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  20%  {width: 12%; top: 14%;  left: 23.6%;}
+  40%  {width: 11%; top: 28.4%; left: 26.8%;}
+  60%  {width: 10%; top: 41.2%; left: 29.4%;}
+  80%  {width: 9.4%; top: 52.6%; left: 30.4%;}
+  100%  {width: 9.4%; top: 63.8%; left: 31%;}
+}
+@keyframes bto4 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  25%  {width: 12%; top: 14%;  left: 23.6%;}
+  50%  {width: 11%; top: 28.4%; left: 26.8%;}
+  75%  {width: 10%; top: 41.2%; left: 29.4%;}
+  100%  {width: 9.4%; top: 52.6%; left: 30.4%;}
+}
+@keyframes bto3 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  33.33%  {width: 12%; top: 14%;  left: 23.6%;}
+  66.67%  {width: 11%; top: 28.4%; left: 26.8%;}
+  100%    {width: 10%; top: 41.2%; left: 29.4%;}
+}
+@keyframes bto2 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  50%   {width: 12%; top: 14%;  left: 23.6%;}
+  100%  {width: 11%; top: 28.4%; left: 26.8%;}
+}
+@keyframes bto1 {
+  0%    {width: 12%; top: 1%;   left: 22%;}
+  100%  {width: 12%; top: 14%;  left: 23.6%;}
+}
+
+.redtoken.b, .yellowtoken.b, .choicetoken.b{
+  top: 1%;
+  left: 22%;
+}
+
+.b1{
+  top: 14% !important;  left: 23.6% !important; width: 12%;
+}
+.b2{
+  top: 28.4% !important; left: 26.8% !important; width: 11%;
+}
+.b3{
+  top: 41.2% !important; left: 29.4% !important; width: 10%;
+}
+.b4{
+  top: 52.6% !important; left: 30.4% !important; width: 9.4%;
+}
+.b5{
+  top: 63.8% !important; left: 31% !important; width: 9.4%;
+}
+.b6{
+  top: 75% !important; left: 31.8% !important; width: 9%;
+}
+.b7{
+  top: 85% !important; left: 31.8% !important; width: 9%;
+}
+
+.bto7{
+  animation-name: bto7;
+  animation-duration: .42s;
+  animation-fill-mode: forwards;
+}
+.bto6{
+  animation-name: bto6;
+  animation-duration: .36s;
+  animation-fill-mode: forwards;
+}
+.bto5{
+  animation-name: bto5;
+  animation-duration: .30s;
+  animation-fill-mode: forwards;
+}
+.bto4{
+  animation-name: bto4;
+  animation-duration: .24s;
+  animation-fill-mode: forwards;
+}
+.bto3{
+  animation-name: bto3;
+  animation-duration: .18s;
+  animation-fill-mode: forwards;
+}
+.bto2{
+  animation-name: bto2;
+  animation-duration: .12s;
+  animation-fill-mode: forwards;
+}
+.bto1{
+  animation-name: bto1;
+  animation-duration: .06s;
+  animation-fill-mode: forwards;
+}
+
+
+/* Column C */
+@keyframes cto7 {
+  0%      {width: 12%; top: 1%;   left: 36%;}
+  14.29%  {width: 12%; top: 14%;  left: 36%;}
+  28.57%  {width: 11%; top: 28.4%; left: 38%;}
+  42.86%  {width: 10%; top: 41.2%; left: 39.8%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 40.2%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 40.6%;}
+  85.71%  {width: 9%; top: 75%; left: 41%;}
+  100%    {width: 9%; top: 85%; left: 41%;}
+}
+@keyframes cto6 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  16.67%  {width: 12%; top: 14%;  left: 36%;}
+  33.33%  {width: 11%; top: 28.4%; left: 38%;}
+  50%     {width: 10%; top: 41.2%; left: 39.8%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 40.2%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 40.6%;}
+  100%    {width: 9%; top: 75%; left: 41%;}
+}
+@keyframes cto5 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  20%  {width: 12%; top: 14%;  left: 36%;}
+  40%  {width: 11%; top: 28.4%; left: 38%;}
+  60%  {width: 10%; top: 41.2%; left: 39.8%;}
+  80%  {width: 9.4%; top: 52.6%; left: 40.2%;}
+  100%  {width: 9.4%; top: 63.8%; left: 40.6%;}
+}
+@keyframes cto4 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  25%  {width: 12%; top: 14%;  left: 36%;}
+  50%  {width: 11%; top: 28.4%; left: 38%;}
+  75%  {width: 10%; top: 41.2%; left: 39.8%;}
+  100%  {width: 9.4%; top: 52.6%; left: 40.2%;}
+}
+@keyframes cto3 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  33.33%  {width: 12%; top: 14%;  left: 36%;}
+  66.67%  {width: 11%; top: 28.4%; left: 38%;}
+  100%    {width: 10%; top: 41.2%; left: 39.8%;}
+}
+@keyframes cto2 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  50%   {width: 12%; top: 14%;  left: 36%;}
+  100%  {width: 11%; top: 28.4%; left: 38%;}
+}
+@keyframes cto1 {
+  0%    {width: 12%; top: 1%;   left: 36%;}
+  100%  {width: 12%; top: 14%;  left: 36%;}
+}
+
+.redtoken.c, .yellowtoken.c, .choicetoken.c{
+  top: 1%;
+  left: 36%;
+}
+
+.c1{
+  top: 14% !important;  left: 36% !important; width: 12%;
+}
+.c2{
+  top: 28.4% !important; left: 38% !important; width: 11%;
+}
+.c3{
+  top: 41.2% !important; left: 39.8% !important; width: 10%;
+}
+.c4{
+  top: 52.6% !important; left: 40.2% !important; width: 9.4%;
+}
+.c5{
+  top: 63.8% !important; left: 40.6% !important; width: 9.4%;
+}
+.c6{
+  top: 75% !important; left: 41% !important; width: 9%;
+}
+.c7{
+  top: 85% !important; left: 41% !important; width: 9%;
+}
+
+.cto7{
+  animation-name: cto7;
+  animation-duration: .42s;
+  animation-fill-mode: forwards;
+}
+.cto6{
+  animation-name: cto6;
+  animation-duration: .36s;
+  animation-fill-mode: forwards;
+}
+.cto5{
+  animation-name: cto5;
+  animation-duration: .30s;
+  animation-fill-mode: forwards;
+}
+.cto4{
+  animation-name: cto4;
+  animation-duration: .24s;
+  animation-fill-mode: forwards;
+}
+.cto3{
+  animation-name: cto3;
+  animation-duration: .18s;
+  animation-fill-mode: forwards;
+}
+.cto2{
+  animation-name: cto2;
+  animation-duration: .12s;
+  animation-fill-mode: forwards;
+}
+.cto1{
+  animation-name: cto1;
+  animation-duration: .06s;
+  animation-fill-mode: forwards;
+}
+
+
+/* Column D */
+@keyframes dto7 {
+  0%      {width: 12%; top: 1%;   left: 52.2%;}
+  14.29%  {width: 12%; top: 14%;  left: 52.2%;}
+  28.57%  {width: 11%; top: 28.4%; left: 51.4%;}
+  42.86%  {width: 10%; top: 41.2%; left: 51%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 51%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 50.6%;}
+  85.71%  {width: 9%; top: 75%; left: 50.6%;}
+  100%    {width: 9%; top: 85%; left: 50.6%;}
+}
+@keyframes dto6 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  16.67%  {width: 12%; top: 14%;  left: 52.2%;}
+  33.33%  {width: 11%; top: 28.4%; left: 51.4%;}
+  50%     {width: 10%; top: 41.2%; left: 51%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 51%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 50.6%;}
+  100%    {width: 9%; top: 75%; left: 50.6%;}
+}
+@keyframes dto5 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  20%  {width: 12%; top: 14%;  left: 52.2%;}
+  40%  {width: 11%; top: 28.4%; left: 51.4%;}
+  60%  {width: 10%; top: 41.2%; left: 51%;}
+  80%  {width: 9.4%; top: 52.6%; left: 51%;}
+  100%  {width: 9.4%; top: 63.8%; left: 50.6%;}
+}
+@keyframes dto4 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  25%  {width: 12%; top: 14%;  left: 52.2%;}
+  50%  {width: 11%; top: 28.4%; left: 51.4%;}
+  75%  {width: 10%; top: 41.2%; left: 51%;}
+  100%  {width: 9.4%; top: 52.6%; left: 51%;}
+}
+@keyframes dto3 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  33.33%  {width: 12%; top: 14%;  left: 52.2%;}
+  66.67%  {width: 11%; top: 28.4%; left: 51.4%;}
+  100%    {width: 10%; top: 41.2%; left: 51%;}
+}
+@keyframes dto2 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  50%   {width: 12%; top: 14%;  left: 52.2%;}
+  100%  {width: 11%; top: 28.4%; left: 51.4%;}
+}
+@keyframes dto1 {
+  0%    {width: 12%; top: 1%;   left: 52.2%;}
+  100%  {width: 12%; top: 14%;  left: 52.2%;}
+}
+
+.redtoken.d, .yellowtoken.d, .choicetoken.d{
+  top: 1%;
+  left: 52.2%;
+}
+
+.d1{
+  top: 14% !important;  left: 52.2% !important; width: 12%;
+}
+.d2{
+  top: 28.4% !important; left: 51.4% !important; width: 11%;
+}
+.d3{
+  top: 41.2% !important; left: 51% !important; width: 10%;
+}
+.d4{
+  top: 52.6% !important; left: 51% !important; width: 9.4%;
+}
+.d5{
+  top: 63.8% !important; left: 50.6% !important; width: 9.4%;
+}
+.d6{
+  top: 75% !important; left: 50.6% !important; width: 9%;
+}
+.d7{
+  top: 85% !important; left: 50.6% !important; width: 9%;
+}
+
+.dto7{
+  animation-name: dto7;
+  animation-duration: .42s;
+  animation-fill-mode: forwards;
+}
+.dto6{
+  animation-name: dto6;
+  animation-duration: .36s;
+  animation-fill-mode: forwards;
+}
+.dto5{
+  animation-name: dto5;
+  animation-duration: .30s;
+  animation-fill-mode: forwards;
+}
+.dto4{
+  animation-name: dto4;
+  animation-duration: .24s;
+  animation-fill-mode: forwards;
+}
+.dto3{
+  animation-name: dto3;
+  animation-duration: .18s;
+  animation-fill-mode: forwards;
+}
+.dto2{
+  animation-name: dto2;
+  animation-duration: .12s;
+  animation-fill-mode: forwards;
+}
+.dto1{
+  animation-name: dto1;
+  animation-duration: .06s;
+  animation-fill-mode: forwards;
+}
+
+
+/* Column E */
+@keyframes eto7 {
+  0%      {width: 12%; top: 1%;   left: 65.8%;}
+  14.29%  {width: 12%; top: 14%;  left: 65.8%;}
+  28.57%  {width: 11%; top: 28.4%; left: 63%;}
+  42.86%  {width: 10%; top: 41.2%; left: 61.8%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 61.4%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 60.8%;}
+  85.71%  {width: 9%; top: 75%; left: 60.4%;}
+  100%    {width: 9%; top: 85%; left: 60.4%;}
+}
+@keyframes eto6 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  16.67%  {width: 12%; top: 14%;  left: 65.8%;}
+  33.33%  {width: 11%; top: 28.4%; left: 63%;}
+  50%     {width: 10%; top: 41.2%; left: 61.8%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 61.4%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 60.8%;}
+  100%    {width: 9%; top: 75%; left: 60.4%;}
+}
+@keyframes eto5 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  20%  {width: 12%; top: 14%;  left: 65.8%;}
+  40%  {width: 11%; top: 28.4%; left: 63%;}
+  60%  {width: 10%; top: 41.2%; left: 61.8%;}
+  80%  {width: 9.4%; top: 52.6%; left: 61.4%;}
+  100%  {width: 9.4%; top: 63.8%; left: 60.8%;}
+}
+@keyframes eto4 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  25%  {width: 12%; top: 14%;  left: 65.8%;}
+  50%  {width: 11%; top: 28.4%; left: 63%;}
+  75%  {width: 10%; top: 41.2%; left: 61.8%;}
+  100%  {width: 9.4%; top: 52.6%; left: 61.4%;}
+}
+@keyframes eto3 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  33.33%  {width: 12%; top: 14%;  left: 65.8%;}
+  66.67%  {width: 11%; top: 28.4%; left: 63%;}
+  100%    {width: 10%; top: 41.2%; left: 61.8%;}
+}
+@keyframes eto2 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  50%   {width: 12%; top: 14%;  left: 65.8%;}
+  100%  {width: 11%; top: 28.4%; left: 63%;}
+}
+@keyframes eto1 {
+  0%    {width: 12%; top: 1%;   left: 65.8%;}
+  100%  {width: 12%; top: 14%;  left: 65.8%;}
+}
+
+.redtoken.e, .yellowtoken.e, .choicetoken.e{
+  top: 1%;
+  left: 65.8%;
+}
+
+.e1{
+  top: 14% !important;  left: 65.8% !important; width: 12%;
+}
+.e2{
+  top: 28.4% !important; left: 63% !important; width: 11%;
+}
+.e3{
+  top: 41.2% !important; left: 61.8% !important; width: 10%;
+}
+.e4{
+  top: 52.6% !important; left: 61.4% !important; width: 9.4%;
+}
+.e5{
+  top: 63.8% !important; left: 60.8% !important; width: 9.4%;
+}
+.e6{
+  top: 75% !important; left: 60.4% !important; width: 9%;
+}
+.e7{
+  top: 85% !important; left: 60.4% !important; width: 9%;
+}
+
+.eto7{
+  animation-name: eto7;
+  animation-duration: .42s;
+  animation-fill-mode: forwards;
+}
+.eto6{
+  animation-name: eto6;
+  animation-duration: .36s;
+  animation-fill-mode: forwards;
+}
+.eto5{
+  animation-name: eto5;
+  animation-duration: .30s;
+  animation-fill-mode: forwards;
+}
+.eto4{
+  animation-name: eto4;
+  animation-duration: .24s;
+  animation-fill-mode: forwards;
+}
+.eto3{
+  animation-name: eto3;
+  animation-duration: .18s;
+  animation-fill-mode: forwards;
+}
+.eto2{
+  animation-name: eto2;
+  animation-duration: .12s;
+  animation-fill-mode: forwards;
+}
+.eto1{
+  animation-name: eto1;
+  animation-duration: .06s;
+  animation-fill-mode: forwards;
+}
+
+
+/* Column F */
+@keyframes fto7 {
+  0%      {width: 12%; top: 1%;   left: 79.2%;}
+  14.29%  {width: 12%; top: 14%;  left: 78.2%;}
+  28.57%  {width: 11%; top: 28.4%; left: 74%;}
+  42.86%  {width: 10%; top: 41.2%; left: 70.2%;}
+  57.14%  {width: 9.4%; top: 52.6%; left: 71.2%;}
+  71.43%  {width: 9.4%; top: 63.8%; left: 70.2%;}
+  85.71%  {width: 9%; top: 75%; left: 70.2%;}
+  100%    {width: 9%; top: 85%; left: 70.2%;}
+}
+@keyframes fto6 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  16.67%  {width: 12%; top: 14%;  left: 78.2%;}
+  33.33%  {width: 11%; top: 28.4%; left: 74%;}
+  50%     {width: 10%; top: 41.2%; left: 70.2%;}
+  66.67%  {width: 9.4%; top: 52.6%; left: 71.2%;}
+  83.33%  {width: 9.4%; top: 63.8%; left: 70.2%;}
+  100%    {width: 9%; top: 75%; left: 70.2%;}
+}
+@keyframes fto5 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  20%  {width: 12%; top: 14%;  left: 78.2%;}
+  40%  {width: 11%; top: 28.4%; left: 74%;}
+  60%  {width: 10%; top: 41.2%; left: 70.2%;}
+  80%  {width: 9.4%; top: 52.6%; left: 71.2%;}
+  100%  {width: 9.4%; top: 63.8%; left: 70.2%;}
+}
+@keyframes fto4 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  25%  {width: 12%; top: 14%;  left: 78.2%;}
+  50%  {width: 11%; top: 28.4%; left: 74%;}
+  75%  {width: 10%; top: 41.2%; left: 70.2%;}
+  100%  {width: 9.4%; top: 52.6%; left: 71.2%;}
+}
+@keyframes fto3 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  33.33%  {width: 12%; top: 14%;  left: 78.2%;}
+  66.67%  {width: 11%; top: 28.4%; left: 74%;}
+  100%    {width: 10%; top: 41.2%; left: 71.8%;}
+}
+@keyframes fto2 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  50%   {width: 12%; top: 14%;  left: 78.2%;}
+  100%  {width: 11%; top: 28.4%; left: 74%;}
+}
+@keyframes fto1 {
+  0%    {width: 12%; top: 1%;   left: 79.2%;}
+  100%  {width: 12%; top: 14%;  left: 78.2%;}
+}
+
+.redtoken.f, .yellowtoken.f, .choicetoken.f{
+  top: 1%;
+  left: 79.2%;
+}
+
+.f1{
+  top: 14% !important;  left: 78.2% !important; width: 12%;
+}
+.f2{
+  top: 28.4% !important; left: 74% !important; width: 11%;
+}
+.f3{
+  top: 41.2% !important; left: 71.8% !important; width: 10%;
+}
+.f4{
+  top: 52.6% !important; left: 71.2% !important; width: 9.4%;
+}
+.f5{
+  top: 63.8% !important; left: 70.2% !important; width: 9.4%;
+}
+.f6{
+  top: 75% !important; left: 70.2% !important; width: 9%;
+}
+.f7{
+  top: 85% !important; left: 70.2% !important; width: 9%;
+}
+
+.fto7{
+  animation-name: fto7;
+  animation-duration: .42s;
+  animation-fill-mode: forwards;
+}
+.fto6{
+  animation-name: fto6;
+  animation-duration: .36s;
+  animation-fill-mode: forwards;
+}
+.fto5{
+  animation-name: fto5;
+  animation-duration: .30s;
+  animation-fill-mode: forwards;
+}
+.fto4{
+  animation-name: fto4;
+  animation-duration: .24s;
+  animation-fill-mode: forwards;
+}
+.fto3{
+  animation-name: fto3;
+  animation-duration: .18s;
+  animation-fill-mode: forwards;
+}
+.fto2{
+  animation-name: fto2;
+  animation-duration: .12s;
+  animation-fill-mode: forwards;
+}
+.fto1{
+  animation-name: fto1;
+  animation-duration: .06s;
+  animation-fill-mode: forwards;
+}
