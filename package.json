@@ -1,7 +1,7 @@
 {
   "name": "connect4",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.6.9",
+  "description": "This is a low-tech Connect4 game which uses scanned art assets, css animations, and Vanilla JS.",
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -12,5 +12,16 @@
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phxsol/Connect4.git"
+  },
+  "keywords": [ ],
+  "author": "Joshua Hopkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phxsol/Connect4/issues"
+  },
+  "homepage": "https://github.com/phxsol/Connect4#readme"
 }
